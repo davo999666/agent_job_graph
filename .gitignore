@@ -1,0 +1,5 @@
+/.venv
+/CV.pdf
+/cv_cache.json
+/__pycache__
+data/
