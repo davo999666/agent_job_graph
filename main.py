@@ -33,23 +33,20 @@ def root():
 
 from time import perf_counter
 
-from fastapi import HTTPException
+
 
 
 @app.post("/job")
 def receive_job(job: Job):
-
     def generate():
         start = perf_counter()
         result = None
-
         try:
             input_state = {
                 "job_url": job.url,
                 "job_title": job.title,
                 "job_description": job.description,
             }
-
             for stream_mode, data in graph.stream(
                 input_state,
                 stream_mode=["messages", "updates"],
@@ -76,16 +73,13 @@ def receive_job(job: Job):
                 raise RuntimeError(
                     "The match node did not return a result."
                 )
-
             done_data = {
                 "processing_time_sec": round(perf_counter() - start,2)
             }
-
             yield (
                 "event: done\n"
                 f"data: {json.dumps(done_data)}\n\n"
             )
-
         except Exception as error:
             print(
                 f"\nStreaming error: {error}",

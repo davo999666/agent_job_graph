@@ -5,8 +5,8 @@ def get_llm():
     return ChatOpenAI(
         base_url="http://127.0.0.1:1234/v1",
         api_key="lm-studio",
-        model="qwen3.5-2b",
-        temperature=0.2,
+        model="gpt-oss-20b@q8_0",
+        temperature=0.1,
         
         # This tells the LLM to return the response token by token instead of waiting for the whole answer.
         streaming=True,

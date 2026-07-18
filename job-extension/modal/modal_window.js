@@ -1,6 +1,4 @@
 
-
-console.log("modal_window.js loaded");
 showLoadingModal = function () {
     document.getElementById("ai-loading-toast")?.remove();
 
