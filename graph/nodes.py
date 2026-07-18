@@ -68,9 +68,9 @@ def match(state):
         }
     )
 
-    if not isinstance(analysis, dict):
+    if not isinstance(analysis, str):
         raise TypeError(
-            "cv_match_chain must return a dictionary."
+            "cv_match_chain must return a string."
         )
 
     return {

@@ -11,19 +11,27 @@ STRICT RULES:
 - Do NOT guess, infer, or assume missing skills.
 
 OUTPUT FORMAT:
-Return ONLY valid JSON as plain text (no markdown, no code fences).
+Return ONLY plain text.
+Do NOT return JSON.
+Do NOT return Markdown.
+Do NOT use code fences.
 
-{{
-    "match_percent": number,
-    "matching_job_skills": string[],
-    "missing_skills": [
-        {{
-            "skill": string,
-            "what_is_it": string
-        }}
-    ],
-    "score_reason": string
-}}
+Use exactly this format:
+
+Match: <number>%
+
+Matching skills:
+- <skill>
+- <skill>
+- <skill>
+
+Missing skills:
+- <skill>: <what it is>
+- <skill>: <what it is>
+
+Reason:
+<short explanation>
+
 
 JOB:
 {job_text}

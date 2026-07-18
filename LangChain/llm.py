@@ -7,4 +7,10 @@ def get_llm():
         api_key="lm-studio",
         model="qwen3.5-2b",
         temperature=0.2,
+        
+        # This tells the LLM to return the response token by token instead of waiting for the whole answer.
+        streaming=True,
+        
+        #This tells the LLM to include token usage information even when streaming.
+        stream_usage=True,
     )

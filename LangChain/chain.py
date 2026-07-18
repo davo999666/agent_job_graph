@@ -1,4 +1,4 @@
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 from langchain_core.runnables import RunnableLambda
 
 from utility.print_tokens import print_tokens
@@ -9,13 +9,14 @@ from .prompt import CV_EXTRACT_PROMPT, JOB_EXTRACT_PROMPT, MATCH_PROMPT
 
 
 llm = get_llm()
-parser = JsonOutputParser()
+json_parser = JsonOutputParser()
+str_parser = StrOutputParser()
 
 
 
-cv_match_chain = MATCH_PROMPT | llm | RunnableLambda(print_tokens("CV Match")) | parser
-job_extract_chain = JOB_EXTRACT_PROMPT | llm |RunnableLambda(print_tokens("Job Extract")) | parser
-cv_extract_chain = CV_EXTRACT_PROMPT | llm | RunnableLambda(print_tokens("CV Extract")) | parser
+cv_match_chain = MATCH_PROMPT | llm | RunnableLambda(print_tokens("CV Match")) | str_parser
+job_extract_chain = JOB_EXTRACT_PROMPT | llm |RunnableLambda(print_tokens("Job Extract")) | json_parser
+cv_extract_chain = CV_EXTRACT_PROMPT | llm | RunnableLambda(print_tokens("CV Extract")) | json_parser
 
 
 
