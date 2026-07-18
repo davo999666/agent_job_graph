@@ -101,11 +101,13 @@ Rules:
 - Remove duplicate values.
 - Put each technology in the most appropriate category.
 - Separate required qualifications from preferred qualifications.
-- If information is missing, use an empty string, empty array, or empty object.
+- Omit any field whose value would be empty.
+- Do not include keys with empty strings, arrays, objects, values.
+- Return only fields that contain meaningful information.
 - Return only valid JSON.
 - Do not include Markdown or explanations.
 
-Return exactly this structure:
+Include the following fields only if they contain meaningful data. Omit any fields with empty values.
 
 {{
   "title": "",
@@ -129,7 +131,6 @@ Return exactly this structure:
     "devops_tools": [],
     "ai": [],
     "communication_protocols": [],
-    "orms": [],
     "testing": [],
     "messaging": [],
     "caching": [],

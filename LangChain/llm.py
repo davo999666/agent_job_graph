@@ -1,16 +1,24 @@
+import os
+
 from langchain_openai import ChatOpenAI
 
 
-def get_llm():
+def get_local_llm():
     return ChatOpenAI(
         base_url="http://127.0.0.1:1234/v1",
         api_key="lm-studio",
-        model="gpt-oss-20b@q8_0",
+        model="qwen3.5-4b",
         temperature=0.1,
-        
-        # This tells the LLM to return the response token by token instead of waiting for the whole answer.
         streaming=True,
-        
-        #This tells the LLM to include token usage information even when streaming.
+        stream_usage=True,
+    )
+
+
+def get_openai_llm():
+    return ChatOpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-5",
+        temperature=0.1,
+        streaming=True,
         stream_usage=True,
     )

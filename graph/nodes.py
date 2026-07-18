@@ -1,6 +1,6 @@
 import json
 
-from cv_extractor.extractor import ( cache_is_valid, find_cv, load_cached_cv, read_cv, save_cv_cache)
+from cv_extractor.extractor import ( cache_is_valid, convert_cv_to_json, find_cv, load_cached_cv, save_cv_cache)
 from LangChain.chain import ( job_extract_chain, cv_match_chain, cv_extract_chain)
 
 
@@ -15,15 +15,20 @@ def check_cv_cache(state):
 
 def extract_cv(state):
     cv_file = find_cv()
-    cv_text = read_cv(cv_file)
 
-    cv_data = cv_extract_chain.invoke({
-        "cv_text": cv_text,
-    })
+    if cache_is_valid(cv_file):
+        cached_data = load_cached_cv()
+
+        if cached_data is not None:
+            return {
+                "cv_data": cached_data,
+            }
+
+    cv_data = convert_cv_to_json(cv_file)
 
     if not isinstance(cv_data, dict):
         raise TypeError(
-            "cv_extract_chain must return a dictionary."
+            "convert_cv_to_json must return a dictionary."
         )
 
     save_cv_cache(cv_data)
@@ -34,6 +39,7 @@ def extract_cv(state):
 
 
 def extract_job(state):
+    print("extract_job")
     job_data = job_extract_chain.invoke(
         {
             "job_title": state["job_title"],
@@ -55,6 +61,7 @@ def extract_job(state):
 
 
 def match(state):
+    print("start match")
     analysis = cv_match_chain.invoke(
         {
             "cv_text": json.dumps(
@@ -67,6 +74,7 @@ def match(state):
             ),
         }
     )
+    print("end match")
 
     if not isinstance(analysis, str):
         raise TypeError(

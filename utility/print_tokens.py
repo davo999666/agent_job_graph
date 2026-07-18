@@ -1,4 +1,3 @@
-from langchain_core.runnables import RunnableLambda
 
 def print_tokens(chain_name):
     def _print(message):

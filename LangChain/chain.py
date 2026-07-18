@@ -3,12 +3,12 @@ from langchain_core.runnables import RunnableLambda
 
 from utility.print_tokens import print_tokens
 
-from .llm import get_llm
+from .llm import get_local_llm, get_openai_llm
 from .prompt import CV_EXTRACT_PROMPT, JOB_EXTRACT_PROMPT, MATCH_PROMPT
 
 
 
-llm = get_llm()
+llm = get_local_llm()
 json_parser = JsonOutputParser()
 str_parser = StrOutputParser()
 

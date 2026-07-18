@@ -39,52 +39,36 @@ async function sendSimple(title, description) {
 
             const lines = eventBlock.split("\n");
 
-            const eventLine = lines.find(line =>
-                line.startsWith("event:")
-            );
+            const eventLine = lines.find(line => line.startsWith("event:"));
 
             const dataLines = lines
                 .filter(line => line.startsWith("data:"))
                 .map(line => line.slice(5).replace(/^ /, ""));
 
-            const eventName = eventLine
-                ? eventLine.slice(6).trim()
-                : "message";
+            const eventName = eventLine ? eventLine.slice(6).trim() : "message";
 
             const eventData = dataLines.join("\n");
 
-            if (!eventData) {
-                return;
-            }
+            if (!eventData) return;
 
             if (eventName === "token") {
                 const token = JSON.parse(eventData);
 
                 fullOutput += token;
 
-                const outputElement =
-                    document.getElementById("ai-stream-output");
+                const outputElement = document.getElementById("ai-stream-output");
 
                 if (outputElement) {
                     outputElement.textContent = fullOutput;
-
-                    const modalContent = outputElement.parentElement;
-
-                    if (modalContent) {
-                        modalContent.scrollTop =
-                            modalContent.scrollHeight;
-                    }
                 }
 
             } else if (eventName === "done") {
                 const result = JSON.parse(eventData);
 
-                const timeElement =
-                    document.getElementById("ai-processing-time");
+                const timeElement = document.getElementById("ai-processing-time");
 
                 if (timeElement) {
-                    timeElement.textContent =
-                        `Processing time: ${result.processing_time_sec} sec`;
+                    timeElement.textContent = `Processing time: ${result.processing_time_sec} sec`;
                 }
 
             } else if (eventName === "error") {
@@ -133,23 +117,16 @@ async function sendSimple(title, description) {
     } catch (error) {
         document.getElementById("ai-loading-toast")?.remove();
 
-        const timeElement =
-            document.getElementById("ai-processing-time");
+        const timeElement = document.getElementById("ai-processing-time");
 
         if (timeElement) {
-            timeElement.textContent =
-                `Error: ${error.message}`;
+            timeElement.textContent = `Error: ${error.message}`;
             timeElement.style.color = "#c62828";
         } else {
             document.getElementById("ai-modal")?.remove();
 
-            alert(
-                "AI analysis failed: " +
-                error.message
-            );
+            alert("AI analysis failed: " + error.message);
         }
-
-        console.error("AI error:", error);
     }
 }
 
